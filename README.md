@@ -22,3 +22,18 @@
 - Demonstrate with appropriate test cases that the system can gracefully handle concurrent requests to reserve the campsite. -- Provide appropriate error messages to the caller to indicate the error cases.
 - In general, the system should be able to handle large volume of requests for getting the campsite availability.
 - There are no restrictions on how reservations are stored as as long as system constraints are not violated.
+
+
+
+### Accessing Data in H2 Database
+H2 Console
+URL to access H2 console: http://localhost:8090/campsite/h2-console
+
+#### Fill the login form as follows and click on Connect:
+
+- Saved Settings: Generic H2 (Embedded)
+- Setting Name: Generic H2 (Embedded)
+- Driver class: org.h2.Driver
+- JDBC URL: jdbc:h2:mem:campsite;MODE=MySQL
+- User Name: sa
+- Password:
