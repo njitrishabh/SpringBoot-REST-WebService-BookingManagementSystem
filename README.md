@@ -1,7 +1,7 @@
-Online web application to manage the reservations on a campsite, using Spring-Data-JPA, H2-Database, SpringBoot
+####Online web application to manage the reservations on a campsite, using Spring-Data-JPA, H2-Database, SpringBoot
 
 
-To streamline the reservations a few constraints need to be in place -
+##To streamline the reservations a few constraints need to be in place -
 
 The campsite will be free for all.
 The campsite can be reserved for max 3 days.
@@ -9,7 +9,7 @@ The campsite can be reserved minimum 1 day(s) ahead of arrival and up to 1 month
 For sake of simplicity assume the check-in & check-out time is 12:00 AM
 
 
-System Requirements
+##System Requirements
 
 The users will need to find out when the campsite is available. 
 So the system should expose an API to provide information of the availability of the campsite for a given date range with the default being 1 month.
