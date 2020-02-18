@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import javax.validation.Valid;
 
@@ -45,15 +46,29 @@ public class BookingRestController {
 
     @PostMapping
     public ResponseEntity<Object> addBooking(@RequestBody @Valid Booking booking){
-        bookingService.createBooking(booking);
-        return new ResponseEntity<>("Booking completed successfully", HttpStatus.CREATED);
+
+        int max_stay = Period.between(booking.getStartDate(), booking.getEndDate()).getDays();
+
+        if (max_stay <= 3) {
+            bookingService.createBooking(booking);
+            return new ResponseEntity<>("Booking completed successfully", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("The campsite can be reserved for max 3 days.", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateBooking(@PathVariable("id") long id,
                                                            @RequestBody Booking booking){
-        bookingService.updateBooking(id, booking);
-        return new ResponseEntity<>("Booking updated successfully", HttpStatus.OK);
+
+        int max_stay = Period.between(booking.getStartDate(), booking.getEndDate()).getDays();
+
+        if (max_stay <= 3) {
+            bookingService.updateBooking(id, booking);
+            return new ResponseEntity<>("Booking updated successfully", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("The campsite can be reserved for max 3 days.", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.google.common.base.Preconditions;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -27,6 +28,11 @@ public class BookingServiceImpl implements BookingService {
     public List<LocalDate> findVacantDays(LocalDate startDate, LocalDate endDate) {
 
         LocalDate now = LocalDate.now();
+        Preconditions.checkArgument(startDate.isAfter(now), "Start date must be in the future");
+        Preconditions.checkArgument(endDate.isAfter(now), "End date must be in the future");
+        Preconditions.checkArgument(startDate.isEqual(endDate) || startDate.isBefore(endDate),
+                "End date must be equal to start date or greater than start date");
+
         List<LocalDate> vacantDays = startDate.datesUntil(endDate.plusDays(1)).collect(Collectors.toList());
         List<Booking> bookings = bookingRepository.findForDateRange(startDate, endDate);
 
@@ -57,6 +63,7 @@ public class BookingServiceImpl implements BookingService {
         if (!vacantDays.containsAll(booking.getBookingDates())) {
             System.out.println("No vacant dates available");
         }
+
         booking.setActive(true);
         return bookingRepository.save(booking);
     }
